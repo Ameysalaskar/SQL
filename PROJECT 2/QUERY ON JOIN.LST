@@ -1,0 +1,332 @@
+SQL> SELECT C.CNAME AS CUSTOMERNAME, S.SNAME AS SALESMENNAME
+  2  FROM CUSTOMER_NEW C
+  3  JOIN SALESMEN S ON C.SNUM = S.SNUM;
+
+CUSTOMERNAME         SALESMENNAME                                               
+-------------------- --------------------                                       
+HARDIK               PIYUSH                                                     
+GEETA                MITI                                                       
+KAVISH               NIRAJ                                                      
+DHRUV                NIRAJ                                                      
+PRATHAM              PIYUSH                                                     
+VYOMESH              NEHAL                                                      
+KIRIT                RAJESH                                                     
+
+7 rows selected.
+
+SQL> SELECT O.ONUM, AS ORDERNUMBER, C.CNAME AS CUSTOMERNAME
+  2  FROM ORDERS O
+  3  JOIN CUSTOMER C ON O.CNUM = C.CNUM;
+SELECT O.ONUM, AS ORDERNUMBER, C.CNAME AS CUSTOMERNAME
+               *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT O.ONUM AS ORDERNUMBER, C.CNAME AS CUSTOMERNAME
+  2   FROM ORDERS O
+  3   JOIN CUSTOMER C ON O.CNUM = C.CNUM;
+ JOIN CUSTOMER C ON O.CNUM = C.CNUM
+                             *
+ERROR at line 3:
+ORA-00904: "C"."CNUM": invalid identifier 
+
+
+SQL> SELECT O.Onum AS OrderNumber, C.Cname AS CustomerName, S.Sname AS SalesmanName
+  2  /
+SELECT O.Onum AS OrderNumber, C.Cname AS CustomerName, S.Sname AS SalesmanName
+                                                                             *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT O.ONUM AS ORDERNUMBER, C.CNAME AS CUSTOMERNAME, S.SNAME AS SALESMANNAME
+  2  FROM ORDERS O
+  3  JOIN CUSTOMER C ON O.CNUM = C.CNUM
+  4  JOIN SALESMEN S ON O.SNUM = S.SNUM;
+JOIN CUSTOMER C ON O.CNUM = C.CNUM
+                            *
+ERROR at line 3:
+ORA-00904: "C"."CNUM": invalid identifier 
+
+
+SQL> SELECT O.ONUM AS ORDERNUMBER, O.AMT AS ORDERAMT, O.AMT*0.12 AS COMMAMMOUNT
+  2  FROM ORDERS O
+  3  JOIN CUSTOMER C ON O.CNUM = C.CNUM
+  4  WHERE C.RATING >100;
+JOIN CUSTOMER C ON O.CNUM = C.CNUM
+                            *
+ERROR at line 3:
+ORA-00904: "C"."CNUM": invalid identifier 
+
+
+SQL> SELECT DISTINCT S.*
+  2  FROM SALESMEN S
+  3  WHERE S.CITY IN(SELECT CITY
+  4                  FROM SALESMEN
+  5                  GROUP BY CITY
+  6                  HAVING COUNT(*) >1);
+
+SNUM   SNAME                CITY                  COMM                          
+------ -------------------- --------------- ----------                          
+S1001  PIYUSH               LONDON                 .12                          
+S1003  MITI                 LONDON                 .11                          
+
+SQL> SELECT O.*
+  2  FROM ORDERS O
+  3  JOIN SALESMEN S ON O.SNUM = S.SNUM
+  4  WHERE S.SNAME = 'PIYUSH';
+
+ONUM          AMT ODATE     CNUM   SNUM                                         
+------ ---------- --------- ------ ------                                       
+O3008        4723 10-MAY-90 C2006  S1001                                        
+O3011     9891.88 10-JUN-90 C2006  S1001                                        
+O3003      767.19 10-MAR-90 C2001  S1001                                        
+
+SQL> SELECT O.*
+  2  FROM ORDERS O
+  3  JOIN SALESMEN S ON O.SNUM = S.SNUM
+  4  WHERE S.CITY = 'LONDON';
+
+ONUM          AMT ODATE     CNUM   SNUM                                         
+------ ---------- --------- ------ ------                                       
+O3009     1713.23 10-APR-90 C2002  S1003                                        
+O3008        4723 10-MAY-90 C2006  S1001                                        
+O3011     9891.88 10-JUN-90 C2006  S1001                                        
+O3003      767.19 10-MAR-90 C2001  S1001                                        
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CNUM > (SELECT SNUM +1000
+  4                FROM SALESMEN
+  5                WHERE SNAME = 'PIYUSH');
+WHERE CNUM > (SELECT SNUM +1000
+      *
+ERROR at line 3:
+ORA-01722: invalid number 
+
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CNUM > (SELECT SNUM + 1000
+  4                FROM SALESMEN
+  5                WHERE SNAME = 'PIYUSH');
+WHERE CNUM > (SELECT SNUM + 1000
+      *
+ERROR at line 3:
+ORA-01722: invalid number 
+
+
+SQL> SELECT COUNT(*) AS CUSTOMERCOUNT
+  2  FROM CUSTOMER
+  3  WHERE RATING > (SELECT AVG(RATING)
+  4                  FROM CUSTOMER_NEW
+  5                  WHERE CITY = 'LONDON');
+WHERE RATING > (SELECT AVG(RATING)
+      *
+ERROR at line 3:
+ORA-00904: "RATING": invalid identifier 
+
+
+SQL> SELECT CNAME, RATING
+  2  FROM CUSTOMER_NEW
+  3  WHERE RATING > (SELECT AVG(RATING)
+  4                  FROM CUSTOMER_NEW);
+
+CNAME                    RATING                                                 
+-------------------- ----------                                                 
+GEETA                       200                                                 
+KAVISH                      200                                                 
+DHRUV                       300                                                 
+VYOMESH                     300                                                 
+
+SQL> SELECT DISTINCT S.SNAME
+  2  FROM SALESMEN S
+  3  JOIN CUSTOMER C ON S.CITY = C.CITY;
+
+SNAME                                                                           
+--------------------                                                            
+NEHAL                                                                           
+
+SQL> SELECT *
+  2  FROM CUSTOMER
+  3  WHERE RATING NOT IN(SELECT RATING
+  4                      FROM CUSTOMER_NEW
+  5                      WHERE CITY = 'SAN JOSE');
+WHERE RATING NOT IN(SELECT RATING
+      *
+ERROR at line 3:
+ORA-00904: "RATING": invalid identifier 
+
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE RATING NOT IN(SELECT RATING
+  4                      FROM CUSTOMER_NEW
+  5                      WHERE CITY = 'SAN JOSE');
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2007  KIRIT                ROME                   100 S1004                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+C2001  HARDIK               LONDON                 100 S1001                    
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW C
+  3  WHERE EXISTS(SELECT 1
+  4               FROM ORDERS O
+  5               WHERE O.CNUM = C.CNUM AND O.ODATE = '03-OCT-90');
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2007  KIRIT                ROME                   100 S1004                    
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW C
+  3  WHERE RATING >(SELECT MAX(RATING)
+  4                 FROM CUSTOMER_NEW
+  5                 WHERE CITY = 'ROME');
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2004  DHRUV                BERLIN                 300 S1002                    
+C2006  VYOMESH              SAN JOSE               300 S1007                    
+
+SQL> INSERT INTO SALESMEN(SNUM, SNAME, CITY, COMM)
+  2  VALUES('S1008', 'RAKESH', 'UNKNOWN', 0.14);
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM SALESMEN;
+
+SNUM   SNAME                CITY                  COMM                          
+------ -------------------- --------------- ----------                          
+S1001  PIYUSH               LONDON                 .12                          
+S1002  NIRAJ                SAN JOSE               .13                          
+S1003  MITI                 LONDON                 .11                          
+S1004  RAJESH               BARCELONA              .15                          
+S1005  HARESH               NEW YORK                .1                          
+S1006  RAM                  BOMBAY                  .1                          
+S1007  NEHAL                DELHI                  .09                          
+S1008  RAKESH               UNKNOWN                .14                          
+
+8 rows selected.
+
+SQL> CREATE TABLE LONDON_STAFF(
+  2  SNUM VARCHAR(10) PRIMARY KEY,
+  3  SNAME VARCHAR(50) NOT NULL,
+  4  CITY VARCHAR(15) NOT NULL,
+  5  COMM NUMBER(5,2) NOT NULL
+  6  );
+
+Table created.
+
+SQL> SELECT *
+  2  FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+DEPT                           TABLE                                            
+EMP                            TABLE                                            
+BONUS                          TABLE                                            
+SALGRADE                       TABLE                                            
+ITEM                           TABLE                                            
+CUSTOMER                       TABLE                                            
+BOOKS                          TABLE                                            
+ISSUED                         TABLE                                            
+SALESMEN                       TABLE                                            
+CUSTOMER_NEW                   TABLE                                            
+SHOP                           TABLE                                            
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+QMART                          TABLE                                            
+ORDERS                         TABLE                                            
+LONDON_STAFF                   TABLE                                            
+
+14 rows selected.
+
+SQL> DELETE FROM ORDERS
+  2  WHERE CNUM IN(SELECT CNUM
+  3                 FROM CUSTOMER_NEW
+  4                 WHERE CNAME = 'PIYUSH');
+
+0 rows deleted.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> UPDATE CUSTOMER_NEW
+  2  SET RATING = 400
+  3  WHERE CNUM IN (SELECT CNUM
+  4                 FROM ORDERS
+  5                 WHERE SNUM = (SELECT SNUM
+  6                               FROM SALESMEN
+  7                               WHERE SNAME = 'PIYUSH'));
+
+2 rows updated.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> UPDATE CUSTOMER_NEW
+  2  SET RATING = RATING + 100
+  3  WHERE CITY = 'ROME';
+
+2 rows updated.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> UPDATE SALESMEN
+  2  SET COMM = COMM * 2
+  3  WHERE CITY = 'LONDON';
+
+2 rows updated.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> UPDATE CUSTOMER_NEW
+  2  SET RATING = NULL
+  3  WHERE CITY = 'LONDON';
+SET RATING = NULL
+    *
+ERROR at line 2:
+ORA-01407: cannot update ("SCOTT"."CUSTOMER_NEW"."RATING") to NULL 
+
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW;
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2001  HARDIK               LONDON                 400 S1001                    
+C2002  GEETA                ROME                   300 S1003                    
+C2003  KAVISH               SAN JOSE               200 S1002                    
+C2004  DHRUV                BERLIN                 300 S1002                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+C2006  VYOMESH              SAN JOSE               400 S1007                    
+C2007  KIRIT                ROME                   200 S1004                    
+
+7 rows selected.
+
+SQL> UPDATE CUSTOMER_NEW
+  2  SET RATING = NULL
+  3  WHERE CITY = 'LONDON';
+SET RATING = NULL
+    *
+ERROR at line 2:
+ORA-01407: cannot update ("SCOTT"."CUSTOMER_NEW"."RATING") to NULL 
+
+
+SQL> SPOOL OFF;

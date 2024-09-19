@@ -1,0 +1,247 @@
+SQL> SELECT *
+  2  FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+DEPT                           TABLE                                            
+EMP                            TABLE                                            
+BONUS                          TABLE                                            
+SALGRADE                       TABLE                                            
+ITEM                           TABLE                                            
+CUSTOMER                       TABLE                                            
+BOOKS                          TABLE                                            
+ISSUED                         TABLE                                            
+SALESMEN                       TABLE                                            
+CUSTOMER_NEW                   TABLE                                            
+SHOP                           TABLE                                            
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+QMART                          TABLE                                            
+ORDERS                         TABLE                                            
+
+13 rows selected.
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE RATING > 200;
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2004  DHRUV                BERLIN                 300 S1002                    
+C2006  VYOMESH              SAN JOSE               300 S1007                    
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CITY = 'SAN JOSE' AND RATING > 200;
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2006  VYOMESH              SAN JOSE               300 S1007                    
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CITY = 'SAN JOSE' OR RATING >200;
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2003  KAVISH               SAN JOSE               200 S1002                    
+C2004  DHRUV                BERLIN                 300 S1002                    
+C2006  VYOMESH              SAN JOSE               300 S1007                    
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CITY = 'SAN JOSE' OR RATING <=200;
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2001  HARDIK               LONDON                 100 S1001                    
+C2002  GEETA                ROME                   200 S1003                    
+C2003  KAVISH               SAN JOSE               200 S1002                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+C2006  VYOMESH              SAN JOSE               300 S1007                    
+C2007  KIRIT                ROME                   100 S1004                    
+
+6 rows selected.
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CITY <> 'SAN JOSE' OR RATING <=200;
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2001  HARDIK               LONDON                 100 S1001                    
+C2002  GEETA                ROME                   200 S1003                    
+C2003  KAVISH               SAN JOSE               200 S1002                    
+C2004  DHRUV                BERLIN                 300 S1002                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+C2007  KIRIT                ROME                   100 S1004                    
+
+6 rows selected.
+
+SQL> SELECT *
+  2  FROM ORDERS
+  3  WHERE AMT > 1000;
+
+ONUM          AMT ODATE     CNUM   SNUM                                         
+------ ---------- --------- ------ ------                                       
+O3002      1900.1 03-OCT-90 C2007  S1004                                        
+O3005     5160.45 04-OCT-90 C2003  S1002                                        
+O3009     1713.23 10-APR-90 C2002  S1003                                        
+O3008        4723 10-MAY-90 C2006  S1001                                        
+O3010     1309.95 10-MAY-90 C2004  S1002                                        
+O3011     9891.88 10-JUN-90 C2006  S1001                                        
+
+6 rows selected.
+
+SQL> SELECT SNAME, CITY
+  2  FROM SALESMEN
+  3  WHERE CITY = 'LONDON' AND COMM > 0.10;
+
+SNAME                CITY                                                       
+-------------------- ---------------                                            
+PIYUSH               LONDON                                                     
+MITI                 LONDON                                                     
+
+SQL> SELECT *
+  2  FROM CUSTOMER
+  3  W/
+  4  /
+W/
+ *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE NOT(RATING <=100 AND CITY = 'ROME');
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2001  HARDIK               LONDON                 100 S1001                    
+C2002  GEETA                ROME                   200 S1003                    
+C2003  KAVISH               SAN JOSE               200 S1002                    
+C2004  DHRUV                BERLIN                 300 S1002                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+C2006  VYOMESH              SAN JOSE               300 S1007                    
+
+6 rows selected.
+
+SQL> SELECT *
+  2  FROM SALSMEN
+  3  WHERE CITY IN ('BARCELONA', 'LONDON');
+FROM SALSMEN
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT *
+  2  FROM SALESMEN
+  3  WHERE CITY IN ('BARCELONA', 'LONDON');
+
+SNUM   SNAME                CITY                  COMM                          
+------ -------------------- --------------- ----------                          
+S1001  PIYUSH               LONDON                 .12                          
+S1003  MITI                 LONDON                 .11                          
+S1004  RAJESH               BARCELONA              .15                          
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE SNUM IN('S1001', 'S1007', 'S1004');
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2001  HARDIK               LONDON                 100 S1001                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+C2006  VYOMESH              SAN JOSE               300 S1007                    
+C2007  KIRIT                ROME                   100 S1004                    
+
+SQL> SELECT *
+  2  FROM SALESMEN
+  3  WHERE COMM BETWEEN 0.10 AND 0.12;
+
+SNUM   SNAME                CITY                  COMM                          
+------ -------------------- --------------- ----------                          
+S1001  PIYUSH               LONDON                 .12                          
+S1003  MITI                 LONDON                 .11                          
+S1005  HARESH               NEW YORK                .1                          
+S1006  RAM                  BOMBAY                  .1                          
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CNAME >= 'A' AND CNAME <'H';
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2002  GEETA                ROME                   200 S1003                    
+C2004  DHRUV                BERLIN                 300 S1002                    
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CNAME LIKE 'G%';
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2002  GEETA                ROME                   200 S1003                    
+
+SQL> SELECT *
+  2  FROM SALESMEN
+  3  WHERE SNAME LIKE 'P%H';
+
+SNUM   SNAME                CITY                  COMM                          
+------ -------------------- --------------- ----------                          
+S1001  PIYUSH               LONDON                 .12                          
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CITY IS NULL;
+
+no rows selected
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE SNUM IN('S1001', 'S1002');
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2001  HARDIK               LONDON                 100 S1001                    
+C2003  KAVISH               SAN JOSE               200 S1002                    
+C2004  DHRUV                BERLIN                 300 S1002                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CNAME >='A' AND CNAME<'I';
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2001  HARDIK               LONDON                 100 S1001                    
+C2002  GEETA                ROME                   200 S1003                    
+C2004  DHRUV                BERLIN                 300 S1002                    
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE CNAME LIKE 'C%';
+
+no rows selected
+
+SQL> SELECT *
+  2  FROM ORDERS
+  3  WHERE AMT IS NOT NULL AND AMT <> 0;
+
+ONUM          AMT ODATE     CNUM   SNUM                                         
+------ ---------- --------- ------ ------                                       
+O3002      1900.1 03-OCT-90 C2007  S1004                                        
+O3005     5160.45 04-OCT-90 C2003  S1002                                        
+O3009     1713.23 10-APR-90 C2002  S1003                                        
+O3007       75.75 10-APR-90 C2004  S1002                                        
+O3008        4723 10-MAY-90 C2006  S1001                                        
+O3010     1309.95 10-MAY-90 C2004  S1002                                        
+O3011     9891.88 10-JUN-90 C2006  S1001                                        
+O3003      767.19 10-MAR-90 C2001  S1001                                        
+
+8 rows selected.
+
+SQL> SPOOL OFF;

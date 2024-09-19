@@ -1,0 +1,272 @@
+SQL> SELECT SUM(AMT) AS TOTALAMOUNT, AVG(AMT) AS AVERAGEAMOUNT
+  2  FROM ORDERS;
+
+TOTALAMOUNT AVERAGEAMOUNT                                                       
+----------- -------------                                                       
+   25541.55    3192.69375                                                       
+
+SQL> SELECT COUNT(DISTINCT SNUM) AS UNIQUESALESMENCOUNT
+  2  FROM ORDERS;
+
+UNIQUESALESMENCOUNT                                                             
+-------------------                                                             
+                  4                                                             
+
+SQL> SELECT COUNT(RATING) AS COUNTWITHRATINGS
+  2  FROM CUSTOMER_NEW
+  3  WHERE RATING IS NOT NULL;
+
+COUNTWITHRATINGS                                                                
+----------------                                                                
+               7                                                                
+
+SQL> SELECT COUNT(*) AS COUNTWITHNULLRATINGS
+  2  FROM CUSTOMER_NEW
+  3  WHERE RATING IS NULL;
+
+COUNTWITHNULLRATINGS                                                            
+--------------------                                                            
+                   0                                                            
+
+SQL> SELECT SNUM, MAX(AMT) AS LARGESTORDER
+  2  FROM ORDERS
+  3  GROUP BY SNUM;
+
+SNUM   LARGESTORDER                                                             
+------ ------------                                                             
+S1002       5160.45                                                             
+S1003       1713.23                                                             
+S1001       9891.88                                                             
+S1004        1900.1                                                             
+
+SQL> SELECT SNUM, ODATE, MAX(AMT) AS LARGESTORDER
+  2  FROM ORDERS
+  3  GROUP BY SNUM, ODATE;
+
+SNUM   ODATE     LARGESTORDER                                                   
+------ --------- ------------                                                   
+S1004  03-OCT-90       1900.1                                                   
+S1002  10-MAY-90      1309.95                                                   
+S1002  10-APR-90        75.75                                                   
+S1002  04-OCT-90      5160.45                                                   
+S1001  10-JUN-90      9891.88                                                   
+S1003  10-APR-90      1713.23                                                   
+S1001  10-MAR-90       767.19                                                   
+S1001  10-MAY-90         4723                                                   
+
+8 rows selected.
+
+SQL> SELECT COUNT(*) AS ORDERCOUNT
+  2  FROM ORDERS
+  3  WHERE ODATE = '2023-10-03';
+WHERE ODATE = '2023-10-03'
+              *
+ERROR at line 3:
+ORA-01861: literal does not match format string 
+
+
+SQL> SELECT *
+  2  FROM ORDERS;
+
+ONUM          AMT ODATE     CNUM   SNUM                                         
+------ ---------- --------- ------ ------                                       
+O3002      1900.1 03-OCT-90 C2007  S1004                                        
+O3005     5160.45 04-OCT-90 C2003  S1002                                        
+O3009     1713.23 10-APR-90 C2002  S1003                                        
+O3007       75.75 10-APR-90 C2004  S1002                                        
+O3008        4723 10-MAY-90 C2006  S1001                                        
+O3010     1309.95 10-MAY-90 C2004  S1002                                        
+O3011     9891.88 10-JUN-90 C2006  S1001                                        
+O3003      767.19 10-MAR-90 C2001  S1001                                        
+
+8 rows selected.
+
+SQL> SELECT COUNT(*) AS ORDERCOUNT
+  2  FROM ORDERS
+  3  WHERE ODATE = '03-OCT-90';
+
+ORDERCOUNT                                                                      
+----------                                                                      
+         1                                                                      
+
+SQL> SELECT COUNT(DISTINCT CITY) AS UNIQUECITYCOUNT
+  2  FROM CUSTOMER
+  3  WHERE CITY IS NOT NULL;
+
+UNIQUECITYCOUNT                                                                 
+---------------                                                                 
+              3                                                                 
+
+SQL> SELECT C.CNUM, C.CNAME, MIN(O.AMT) AS SMALLESTORDER
+  2  FROM CUSTOMER C
+  3  JOIN ORDERS 0 ON C.CNUM = O.CNUM
+  4  GROUP BY C.CNUM, C.CNAME;
+JOIN ORDERS 0 ON C.CNUM = O.CNUM
+            *
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT C.CNUM, C.CNAME, MIN(O.AMT) AS SMALLESTORDER
+  2  FROM CUSTOMER C
+  3  JOIN ORDERS O ON C.CNUM = O.CNUM
+  4  GROUP BY C.CNUM, C.CNAME;
+JOIN ORDERS O ON C.CNUM = O.CNUM
+                 *
+ERROR at line 3:
+ORA-00904: "C"."CNUM": invalid identifier 
+
+
+SQL> SELECT CITY, MAX(RATING) AS HIGHESTRATING
+  2  FROM CUSTOMER_NEW
+  3  GROUP BY CITY;
+
+CITY            HIGHESTRATING                                                   
+--------------- -------------                                                   
+LONDON                    100                                                   
+SAN JOSE                  300                                                   
+BERLIN                    300                                                   
+ROME                      200                                                   
+
+SQL> SELECT ODATE, COUNT(DISTINCTSNUM) AS UNIQUESALESMENCOUNT
+  2  FROM ORDERS
+  3  GROUP BY ODATE;
+SELECT ODATE, COUNT(DISTINCTSNUM) AS UNIQUESALESMENCOUNT
+                    *
+ERROR at line 1:
+ORA-00904: "DISTINCTSNUM": invalid identifier 
+
+
+SQL> SELECT ODATE, COUNT(DISTINCT SNUM) AS UNIQUESALESMENCOUNT
+  2  FROM ORDERS
+  3  GROUP BY ODATE;
+
+ODATE     UNIQUESALESMENCOUNT                                                   
+--------- -------------------                                                   
+10-MAR-90                   1                                                   
+10-APR-90                   2                                                   
+10-MAY-90                   2                                                   
+10-JUN-90                   1                                                   
+03-OCT-90                   1                                                   
+04-OCT-90                   1                                                   
+
+6 rows selected.
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  ORDER BY CNUM DESC;
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2007  KIRIT                ROME                   100 S1004                    
+C2006  VYOMESH              SAN JOSE               300 S1007                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+C2004  DHRUV                BERLIN                 300 S1002                    
+C2003  KAVISH               SAN JOSE               200 S1002                    
+C2002  GEETA                ROME                   200 S1003                    
+C2001  HARDIK               LONDON                 100 S1001                    
+
+7 rows selected.
+
+SQL> SELECT *
+  2  FROM ORDERS
+  3  ORDER BY CNUM DESC, AMT DESC;
+
+ONUM          AMT ODATE     CNUM   SNUM                                         
+------ ---------- --------- ------ ------                                       
+O3002      1900.1 03-OCT-90 C2007  S1004                                        
+O3011     9891.88 10-JUN-90 C2006  S1001                                        
+O3008        4723 10-MAY-90 C2006  S1001                                        
+O3010     1309.95 10-MAY-90 C2004  S1002                                        
+O3007       75.75 10-APR-90 C2004  S1002                                        
+O3005     5160.45 04-OCT-90 C2003  S1002                                        
+O3009     1713.23 10-APR-90 C2002  S1003                                        
+O3003      767.19 10-MAR-90 C2001  S1001                                        
+
+8 rows selected.
+
+SQL> SELECT SNAME, COMM
+  2  FROM SALESMEN
+  3  ORDER BY 2 DESC;
+
+SNAME                      COMM                                                 
+-------------------- ----------                                                 
+RAJESH                      .15                                                 
+NIRAJ                       .13                                                 
+PIYUSH                      .12                                                 
+MITI                        .11                                                 
+HARESH                       .1                                                 
+RAM                          .1                                                 
+NEHAL                       .09                                                 
+
+7 rows selected.
+
+SQL> SELECT ONUM, SNUM, AMT*0.12 AS COMMAMOUNT
+  2  FROM ORDERS;
+
+ONUM   SNUM   COMMAMOUNT                                                        
+------ ------ ----------                                                        
+O3002  S1004     228.012                                                        
+O3005  S1002     619.254                                                        
+O3009  S1003    205.5876                                                        
+O3007  S1002        9.09                                                        
+O3008  S1001      566.76                                                        
+O3010  S1002     157.194                                                        
+O3011  S1001   1187.0256                                                        
+O3003  S1001     92.0628                                                        
+
+8 rows selected.
+
+SQL> SELECT CITY, MAX(RATING) AS HIGHESTRATING,
+  2  CONCAT('FOR THE CITY', CITY,',THE HIGHEST RATING IS:', MAX(RATING) AS OUTPUT
+  3  FROM CUSTOMER_NEW
+  4  GROUP BY CITY;
+CONCAT('FOR THE CITY', CITY,',THE HIGHEST RATING IS:', MAX(RATING) AS OUTPUT
+*
+ERROR at line 2:
+ORA-00909: invalid number of arguments 
+
+
+SQL> SELECT RATING, CNAME, CNUM
+  2  FROM CUSTOMER_NEW
+  3  ORDER BY RATING DESC;
+
+    RATING CNAME                CNUM                                            
+---------- -------------------- ------                                          
+       300 DHRUV                C2004                                           
+       300 VYOMESH              C2006                                           
+       200 KAVISH               C2003                                           
+       200 GEETA                C2002                                           
+       100 KIRIT                C2007                                           
+       100 PRATHAM              C2005                                           
+       100 HARDIK               C2001                                           
+
+7 rows selected.
+
+SQL> SELECT ODATE, SNUM(AMT) AS TOTALAMOUNT
+  2  FROM ORDERS
+  3  GROUP BY ODATE
+  4  ORDER BY TOTALAMOUNT DESC;
+SELECT ODATE, SNUM(AMT) AS TOTALAMOUNT
+              *
+ERROR at line 1:
+ORA-00904: "SNUM": invalid identifier 
+
+
+SQL> SELECT ODATE, SUM(AMT) AS TOTALAMOUNT
+  2  FROM ORDERS
+  3  GROUP BY ODATE
+  4  ORDER BY TOTALAMOUNT DESC;
+
+ODATE     TOTALAMOUNT                                                           
+--------- -----------                                                           
+10-JUN-90     9891.88                                                           
+10-MAY-90     6032.95                                                           
+04-OCT-90     5160.45                                                           
+03-OCT-90      1900.1                                                           
+10-APR-90     1788.98                                                           
+10-MAR-90      767.19                                                           
+
+6 rows selected.
+
+SQL> SPOOL OFF;

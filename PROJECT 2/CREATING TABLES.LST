@@ -1,0 +1,357 @@
+SQL> CREATE TABLE SALESMEN
+  2  (
+  3  SNUM VARCHAR2(6) PRIMARY KEY,
+  4  SNAME VARCHAR2(20) NOT NULL,
+  5  CITY VARCAR2(15) NOT NULL,
+  6  COMM NUMBER(5,2) NOT NULL
+  7  );
+CITY VARCAR2(15) NOT NULL,
+            *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL>  CREATE TABLE SALESMEN
+  2   (
+  3   SNUM VARCHAR2(6) PRIMARY KEY,
+  4   SNAME VARCHAR2(20) NOT NULL,
+  5  CITY VARCHAR2(15) NOT NULL,
+  6   COMM NUMBER(5,2) NOT NULL
+  7  );
+
+Table created.
+
+SQL> CREATE TABLE CUSTOMER
+  2  (
+  3  CNUM VARCHAR2(6) PRIMARY KEY,
+  4  CNAME VARCHAR2(20) NOT NULL,
+  5  CITY VARCHAR(15) NOT NULL,
+  6  RATING NUMBER(5) NOT NULL,
+  7  SNUM VARCHAR2(6),
+  8  FOREIGN KEY (SNUM) REFERENCES SALESMEN(SNUM);
+FOREIGN KEY (SNUM) REFERENCES SALESMEN(SNUM)
+                                           *
+ERROR at line 8:
+ORA-00907: missing right parenthesis 
+
+
+SQL>  CREATE TABLE CUSTOMER
+  2   (
+  3   CNUM VARCHAR2(6) PRIMARY KEY,
+  4   CNAME VARCHAR2(20) NOT NULL,
+  5   CITY VARCHAR(15) NOT NULL,
+  6   RATING NUMBER(5) NOT NULL,
+  7   SNUM VARCHAR2(6),
+  8   FOREIGN KEY (SNUM) REFERENCES SALESMEN(SNUM)
+  9  );
+ CREATE TABLE CUSTOMER
+              *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> SELECT *
+  2  FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+DEPT                           TABLE                                            
+EMP                            TABLE                                            
+BONUS                          TABLE                                            
+SALGRADE                       TABLE                                            
+ITEM                           TABLE                                            
+CUSTOMER                       TABLE                                            
+BOOKS                          TABLE                                            
+ISSUED                         TABLE                                            
+SALESMEN                       TABLE                                            
+SHOP                           TABLE                                            
+QMART                          TABLE                                            
+
+11 rows selected.
+
+SQL> INSERT INTO SALESMEN(SNUM, SNAME, CITY, COMM)
+  2  VALUES(&SNUM, &SNAME, &CITY, &COMM);
+Enter value for snum: 'S1001'
+Enter value for sname: 'PIYUSH'
+Enter value for city: 'LONDON'
+Enter value for comm: 0.12
+old   2: VALUES(&SNUM, &SNAME, &CITY, &COMM)
+new   2: VALUES('S1001', 'PIYUSH', 'LONDON', 0.12)
+
+1 row created.
+
+SQL> /
+Enter value for snum: 'S1002'
+Enter value for sname: 'NIRAJ'
+Enter value for city: 'SAN JOSE'
+Enter value for comm: 0.13
+old   2: VALUES(&SNUM, &SNAME, &CITY, &COMM)
+new   2: VALUES('S1002', 'NIRAJ', 'SAN JOSE', 0.13)
+
+1 row created.
+
+SQL> /
+Enter value for snum: 'S1003'
+Enter value for sname: 'MITI'
+Enter value for city: 'LONDON'
+Enter value for comm: 0.11
+old   2: VALUES(&SNUM, &SNAME, &CITY, &COMM)
+new   2: VALUES('S1003', 'MITI', 'LONDON', 0.11)
+
+1 row created.
+
+SQL> /
+Enter value for snum: 'S1004'
+Enter value for sname: 'RAJESH'
+Enter value for city: 'BARCELONA'
+Enter value for comm: 0.15
+old   2: VALUES(&SNUM, &SNAME, &CITY, &COMM)
+new   2: VALUES('S1004', 'RAJESH', 'BARCELONA', 0.15)
+
+1 row created.
+
+SQL> /
+Enter value for snum: 'S1005'
+Enter value for sname: 'HARESH'
+Enter value for city: 'NEW YORK'
+Enter value for comm: 0.10
+old   2: VALUES(&SNUM, &SNAME, &CITY, &COMM)
+new   2: VALUES('S1005', 'HARESH', 'NEW YORK', 0.10)
+
+1 row created.
+
+SQL> /
+Enter value for snum: 'S1006'
+Enter value for sname: 'RAM'
+Enter value for city: 'BOMBAY'
+Enter value for comm: 0.10
+old   2: VALUES(&SNUM, &SNAME, &CITY, &COMM)
+new   2: VALUES('S1006', 'RAM', 'BOMBAY', 0.10)
+
+1 row created.
+
+SQL> /
+Enter value for snum: 'S1007'
+Enter value for sname: 'NEHAL'
+Enter value for city: 'DELHI'
+Enter value for comm: 0.09
+old   2: VALUES(&SNUM, &SNAME, &CITY, &COMM)
+new   2: VALUES('S1007', 'NEHAL', 'DELHI', 0.09)
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM SALESMEN;
+
+SNUM   SNAME                CITY                  COMM                          
+------ -------------------- --------------- ----------                          
+S1001  PIYUSH               LONDON                 .12                          
+S1002  NIRAJ                SAN JOSE               .13                          
+S1003  MITI                 LONDON                 .11                          
+S1004  RAJESH               BARCELONA              .15                          
+S1005  HARESH               NEW YORK                .1                          
+S1006  RAM                  BOMBAY                  .1                          
+S1007  NEHAL                DELHI                  .09                          
+
+7 rows selected.
+
+SQL> CREATE TABLE CUSTOMER_NEW
+  2  (
+  3  CNUM VARCHAR2(6) PRIMARY KEY,
+  4  CNAME VARCHAR2(20) NOT NULL,
+  5  CITY VARCHAR(15) NOT NULL,
+  6  RATING NUMBER(5) NOT NULL,
+  7  SNUM VARCHAR2(6),
+  8  FOREIGN KEY (SNUM) REFERENCES SALESMEN(SNUM)
+  9  );
+
+Table created.
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW;
+
+no rows selected
+
+SQL> INSERT INTO CUSTOMER_NEW(CNUM, CNAME, CITY, RATING, SNUM)
+  2  VALUES(&CNUM, &CNAME, &CITY, &RATING, &SNUM);
+Enter value for cnum: 'C2001'
+Enter value for cname: 'HARDIK'
+Enter value for city: 'LONDON'
+Enter value for rating: 100
+Enter value for snum: 'S1001'
+old   2: VALUES(&CNUM, &CNAME, &CITY, &RATING, &SNUM)
+new   2: VALUES('C2001', 'HARDIK', 'LONDON', 100, 'S1001')
+
+1 row created.
+
+SQL> /
+Enter value for cnum: 'C2002'
+Enter value for cname: 'GEETA'
+Enter value for city: 'ROME'
+Enter value for rating: 200
+Enter value for snum: 'S1003'
+old   2: VALUES(&CNUM, &CNAME, &CITY, &RATING, &SNUM)
+new   2: VALUES('C2002', 'GEETA', 'ROME', 200, 'S1003')
+
+1 row created.
+
+SQL> /
+Enter value for cnum: 'C2003'
+Enter value for cname: 'KAVISH'
+Enter value for city: 'SAN JOSE'
+Enter value for rating: 200
+Enter value for snum: 'S1002'
+old   2: VALUES(&CNUM, &CNAME, &CITY, &RATING, &SNUM)
+new   2: VALUES('C2003', 'KAVISH', 'SAN JOSE', 200, 'S1002')
+
+1 row created.
+
+SQL> /
+Enter value for cnum: 'C2004'
+Enter value for cname: 'DHRUV'
+Enter value for city: 'BERLIN'
+Enter value for rating: 300
+Enter value for snum: 'S1002'
+old   2: VALUES(&CNUM, &CNAME, &CITY, &RATING, &SNUM)
+new   2: VALUES('C2004', 'DHRUV', 'BERLIN', 300, 'S1002')
+
+1 row created.
+
+SQL> /
+Enter value for cnum: 'C2005'
+Enter value for cname: 'PRATHAM'
+Enter value for city: 'LONDON'
+Enter value for rating: 100
+Enter value for snum: 'S1001'
+old   2: VALUES(&CNUM, &CNAME, &CITY, &RATING, &SNUM)
+new   2: VALUES('C2005', 'PRATHAM', 'LONDON', 100, 'S1001')
+
+1 row created.
+
+SQL> /
+Enter value for cnum: 'C2006'
+Enter value for cname: 'VYOMESH'
+Enter value for city: 'SAN JOSE'
+Enter value for rating: 300
+Enter value for snum: 'S1007'
+old   2: VALUES(&CNUM, &CNAME, &CITY, &RATING, &SNUM)
+new   2: VALUES('C2006', 'VYOMESH', 'SAN JOSE', 300, 'S1007')
+
+1 row created.
+
+SQL> /
+Enter value for cnum: 'C2007'
+Enter value for cname: 'KIRIT'
+Enter value for city: 'ROME'
+Enter value for rating: 100
+Enter value for snum: 'S1004'
+old   2: VALUES(&CNUM, &CNAME, &CITY, &RATING, &SNUM)
+new   2: VALUES('C2007', 'KIRIT', 'ROME', 100, 'S1004')
+
+1 row created.
+
+SQL> SET PAGES 500 LINES 500
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW;
+
+CNUM   CNAME                CITY                RATING SNUM                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+------ -------------------- --------------- ---------- ------                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+C2001  HARDIK               LONDON                 100 S1001                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+C2002  GEETA                ROME                   200 S1003                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+C2003  KAVISH               SAN JOSE               200 S1002                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+C2004  DHRUV                BERLIN                 300 S1002                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+C2005  PRATHAM              LONDON                 100 S1001                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+C2006  VYOMESH              SAN JOSE               300 S1007                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+C2007  KIRIT                ROME                   100 S1004                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+7 rows selected.
+
+SQL> CREATE TABLE ORDER
+  2  (
+  3  ONUM VARCHAR2(6) PRIMARY KEY,
+  4  AMT NUMBER(10,2) NOT NULL,
+  5  ODATE DATE NOT NULL,
+  6  CNUM VARCHAR2(6),
+  7  SNUM VARCHAR2(6),
+  8  FOREIGN KEY (CNUM) REFERENCES CUSTOMER(CNUM),
+  9  FOREIGN KEY (SNUM) REFERENCES SALESMEN(SNUM)
+ 10  );
+CREATE TABLE ORDER
+             *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> SELECT *
+  2  FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+------------------------------ ------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+DEPT                           TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+EMP                            TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+BONUS                          TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+SALGRADE                       TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+ITEM                           TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+CUSTOMER                       TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+BOOKS                          TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+ISSUED                         TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+SALESMEN                       TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+CUSTOMER_NEW                   TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+SHOP                           TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+QMART                          TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+12 rows selected.
+
+SQL> CREATE TABLE `ORDER`
+  2  (
+  3  ONUM VARCHAR2(6) PRIMARY KEY,
+  4  AMT NUMBER(10,2) NOT NULL,
+  5  ODATE DATE NOT NULL,
+  6  CNUM VARCHAR2(6),
+  7  SNUM VARCHAR2(6),
+  8  FOREIGN KEY (CNUM) REFERENCES CUSTOMER(CNUM),
+  9  FOREIGN KEY (SNUM) REFERENCES SALESMEN(SNUM)
+ 10  );
+CREATE TABLE `ORDER`
+             *
+ERROR at line 1:
+ORA-00911: invalid character 
+
+
+SQL> CREATE TABLE ORDER
+  2  (
+  3  ONUM VARCHAR2(6) PRIMARY KEY,
+  4  AMT NUMBER(10,2) NOT NULL,
+  5  ODATE DATE NOT NULL,
+  6  CNUM VARCHAR2(6),
+  7  SNUM VARCHAR2(6),
+  8  FOREIGN KEY (CNUM) REFERENCES CUSTOMER(CNUM),
+  9  FOREIGN KEY (SNUM) REFERENCES SALESMEN(SNUM)
+ 10  );
+CREATE TABLE ORDER
+             *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> CREATE TABLE ORDERS
+  2  (
+  3  ONUM VARCHAR2(6) PRIMARY KEY,
+  4  AMT NUMBER(10,2) NOT NULL,
+  5  ODATE DATE NOT NULL,
+  6  CNUM VARCHAR2(6),
+  7  SNUM VARCHAR2(6),
+  8  FOREIGN KEY (CNUM) REFERENCES CUSTOMER(CNUM),
+  9  FOREIGN KEY (SNUM) REFERENCES SALESMEN(SNUM)
+ 10  );
+FOREIGN KEY (CNUM) REFERENCES CUSTOMER(CNUM),
+                                       *
+ERROR at line 8:
+ORA-00904: "CNUM": invalid identifier 
+
+
+SQL> SPOOL OFF;

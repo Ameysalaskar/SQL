@@ -1,0 +1,247 @@
+SQL> SELECT *
+  2  FROM SALESMEN;
+
+SNUM   SNAME                CITY                  COMM                          
+------ -------------------- --------------- ----------                          
+S1001  PIYUSH               LONDON                 .12                          
+S1002  NIRAJ                SAN JOSE               .13                          
+S1003  MITI                 LONDON                 .11                          
+S1004  RAJESH               BARCELONA              .15                          
+S1005  HARESH               NEW YORK                .1                          
+S1006  RAM                  BOMBAY                  .1                          
+S1007  NEHAL                DELHI                  .09                          
+
+7 rows selected.
+
+SQL> SELECT SNUM, SNAME, CITY
+  2  FROM SALESMEN;
+
+SNUM   SNAME                CITY                                                
+------ -------------------- ---------------                                     
+S1001  PIYUSH               LONDON                                              
+S1002  NIRAJ                SAN JOSE                                            
+S1003  MITI                 LONDON                                              
+S1004  RAJESH               BARCELONA                                           
+S1005  HARESH               NEW YORK                                            
+S1006  RAM                  BOMBAY                                              
+S1007  NEHAL                DELHI                                               
+
+7 rows selected.
+
+SQL> SELECT ODATE, SNUM, ONUM, AMT
+  2  FROM ORDERS;
+
+ODATE     SNUM   ONUM          AMT                                              
+--------- ------ ------ ----------                                              
+03-OCT-90 S1004  O3002      1900.1                                              
+04-OCT-90 S1002  O3005     5160.45                                              
+10-APR-90 S1003  O3009     1713.23                                              
+10-APR-90 S1002  O3007       75.75                                              
+10-MAY-90 S1001  O3008        4723                                              
+10-MAY-90 S1002  O3010     1309.95                                              
+10-JUN-90 S1001  O3011     9891.88                                              
+10-MAR-90 S1001  O3003      767.19                                              
+
+8 rows selected.
+
+SQL> SELECT DISTINCT *
+  2  FROM ORDERS;
+
+ONUM          AMT ODATE     CNUM   SNUM                                         
+------ ---------- --------- ------ ------                                       
+O3009     1713.23 10-APR-90 C2002  S1003                                        
+O3007       75.75 10-APR-90 C2004  S1002                                        
+O3002      1900.1 03-OCT-90 C2007  S1004                                        
+O3010     1309.95 10-MAY-90 C2004  S1002                                        
+O3003      767.19 10-MAR-90 C2001  S1001                                        
+O3005     5160.45 04-OCT-90 C2003  S1002                                        
+O3008        4723 10-MAY-90 C2006  S1001                                        
+O3011     9891.88 10-JUN-90 C2006  S1001                                        
+
+8 rows selected.
+
+SQL> SELECT SNAME, CITY
+  2  FROM SALESMEN
+  3  WHERE CITY = 'LONDON';
+
+SNAME                CITY                                                       
+-------------------- ---------------                                            
+PIYUSH               LONDON                                                     
+MITI                 LONDON                                                     
+
+SQL> SELECT *
+  2  FROM CUSTOMER
+  3  WHERE RATING = ;
+WHERE RATING = 
+              *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> SELECT *
+  2  FROM CUSTOMER
+  3  WHERE RATING = 100;
+WHERE RATING = 100
+      *
+ERROR at line 3:
+ORA-00904: "RATING": invalid identifier 
+
+
+SQL> SELECT *
+  2  FROM CUSTOMER;
+
+      C_ID CUSTOMER_N CITY       I_ID                                           
+---------- ---------- ---------- ----                                           
+         1 N ROY      DELHI      LC03                                           
+         6 H SINGH    MUMBAI     PC03                                           
+        12 R PANDEY   DELHI      PC06                                           
+        15 C SHARMA   DELHI      LC03                                           
+        16 K AGARWAL  BANGALORE  PC01                                           
+
+SQL> SELECT ONUM, AMT, ODATE
+  2  FROM ORDERS;
+
+ONUM          AMT ODATE                                                         
+------ ---------- ---------                                                     
+O3002      1900.1 03-OCT-90                                                     
+O3005     5160.45 04-OCT-90                                                     
+O3009     1713.23 10-APR-90                                                     
+O3007       75.75 10-APR-90                                                     
+O3008        4723 10-MAY-90                                                     
+O3010     1309.95 10-MAY-90                                                     
+O3011     9891.88 10-JUN-90                                                     
+O3003      767.19 10-MAR-90                                                     
+
+8 rows selected.
+
+SQL> SELECT *
+  2  FROM CUSTOMER
+  3  WHERE SNUM = 'S1001';
+WHERE SNUM = 'S1001'
+      *
+ERROR at line 3:
+ORA-00904: "SNUM": invalid identifier 
+
+
+SQL> SELECT *
+  2  FROM CUSTOMER;
+
+      C_ID CUSTOMER_N CITY       I_ID                                           
+---------- ---------- ---------- ----                                           
+         1 N ROY      DELHI      LC03                                           
+         6 H SINGH    MUMBAI     PC03                                           
+        12 R PANDEY   DELHI      PC06                                           
+        15 C SHARMA   DELHI      LC03                                           
+        16 K AGARWAL  BANGALORE  PC01                                           
+
+SQL> SELECT *
+  2  FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+DEPT                           TABLE                                            
+EMP                            TABLE                                            
+BONUS                          TABLE                                            
+SALGRADE                       TABLE                                            
+ITEM                           TABLE                                            
+CUSTOMER                       TABLE                                            
+BOOKS                          TABLE                                            
+ISSUED                         TABLE                                            
+SALESMEN                       TABLE                                            
+CUSTOMER_NEW                   TABLE                                            
+SHOP                           TABLE                                            
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+QMART                          TABLE                                            
+ORDERS                         TABLE                                            
+
+13 rows selected.
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE SNUM = 'S1001';
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2001  HARDIK               LONDON                 100 S1001                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+
+SQL> SELECT *
+  2  FROM CUSTOMER_NEW
+  3  WHERE RATING = 100;
+
+CNUM   CNAME                CITY                RATING SNUM                     
+------ -------------------- --------------- ---------- ------                   
+C2001  HARDIK               LONDON                 100 S1001                    
+C2005  PRATHAM              LONDON                 100 S1001                    
+C2007  KIRIT                ROME                   100 S1004                    
+
+SQL> SELECT *
+  2  FROM SALESMEN;
+
+SNUM   SNAME                CITY                  COMM                          
+------ -------------------- --------------- ----------                          
+S1001  PIYUSH               LONDON                 .12                          
+S1002  NIRAJ                SAN JOSE               .13                          
+S1003  MITI                 LONDON                 .11                          
+S1004  RAJESH               BARCELONA              .15                          
+S1005  HARESH               NEW YORK                .1                          
+S1006  RAM                  BOMBAY                  .1                          
+S1007  NEHAL                DELHI                  .09                          
+
+7 rows selected.
+
+SQL> SELECT CITY, SNAME, SNUM, COMM
+  2  FROM SALESMEN;
+
+CITY            SNAME                SNUM         COMM                          
+--------------- -------------------- ------ ----------                          
+LONDON          PIYUSH               S1001         .12                          
+SAN JOSE        NIRAJ                S1002         .13                          
+LONDON          MITI                 S1003         .11                          
+BARCELONA       RAJESH               S1004         .15                          
+NEW YORK        HARESH               S1005          .1                          
+BOMBAY          RAM                  S1006          .1                          
+DELHI           NEHAL                S1007         .09                          
+
+7 rows selected.
+
+SQL> SELECT RATING, CNAME
+  2  FROM CUSTOMER
+  3  WHERE CITY = 'SAN JOSE';
+SELECT RATING, CNAME
+               *
+ERROR at line 1:
+ORA-00904: "CNAME": invalid identifier 
+
+
+SQL> SELECT RATING, CNAME
+  2  FROM CUSTOMER_NEW
+  3  WHERE CITY = 'SAN JOSE';
+
+    RATING CNAME                                                                
+---------- --------------------                                                 
+       200 KAVISH                                                               
+       300 VYOMESH                                                              
+
+SQL> SELECT DISTINCT SNUM
+  2  FROM SALESMEN;
+
+SNUM                                                                            
+------                                                                          
+S1001                                                                           
+S1002                                                                           
+S1003                                                                           
+S1004                                                                           
+S1005                                                                           
+S1006                                                                           
+S1007                                                                           
+
+7 rows selected.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SPOOL OFF;
