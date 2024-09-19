@@ -1,0 +1,258 @@
+SQL> SELECT *
+  2  FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+DEPT                           TABLE                                            
+EMP                            TABLE                                            
+BONUS                          TABLE                                            
+SALGRADE                       TABLE                                            
+ITEM                           TABLE                                            
+SHOP                           TABLE                                            
+QMART                          TABLE                                            
+
+7 rows selected.
+
+SQL> SELECT *
+  2  FROM ITEM;
+
+no rows selected
+
+SQL> SHOW COLUMNS FROM ITEM;
+SP2-0158: unknown SHOW option "COLUMNS"
+SP2-0158: unknown SHOW option "FROM"
+SP2-0158: unknown SHOW option "ITEM"
+SQL> DESCRIBE table_name;
+ERROR:
+ORA-04043: object table_name does not exist 
+
+
+SQL> DESCRIBE ITEM;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ I_ID                                      NOT NULL VARCHAR2(4)
+ ITEM_NAME                                 NOT NULL VARCHAR2(18)
+ MANUFACTURER                              NOT NULL VARCHAR2(8)
+ PRICE                                     NOT NULL NUMBER(10,2)
+
+SQL> INSERT INTO ITEM(I_ID, ITEM_NAME, MANUFACTURER, PRICE)
+  2  VALUES(&I_ID, &ITEM_NAME, &MANUFACTURER, &PRICE);
+Enter value for i_id: 'PC01'
+Enter value for item_name: 'PERSONAL COMPUTER'
+Enter value for manufacturer: 'HP'
+Enter value for price: 35000
+old   2: VALUES(&I_ID, &ITEM_NAME, &MANUFACTURER, &PRICE)
+new   2: VALUES('PC01', 'PERSONAL COMPUTER', 'HP', 35000)
+
+1 row created.
+
+SQL> /
+Enter value for i_id: 'LC05'
+Enter value for item_name: 'LAPTOP'
+Enter value for manufacturer: 'HP'
+Enter value for price: 55000
+old   2: VALUES(&I_ID, &ITEM_NAME, &MANUFACTURER, &PRICE)
+new   2: VALUES('LC05', 'LAPTOP', 'HP', 55000)
+
+1 row created.
+
+SQL> /
+Enter value for i_id: 'PC03'
+Enter value for item_name: 'PERSONAL COMPUTER'
+Enter value for manufacturer: 'TOSHIBA'
+Enter value for price: 32000
+old   2: VALUES(&I_ID, &ITEM_NAME, &MANUFACTURER, &PRICE)
+new   2: VALUES('PC03', 'PERSONAL COMPUTER', 'TOSHIBA', 32000)
+
+1 row created.
+
+SQL> /
+Enter value for i_id: 'PC06'
+Enter value for item_name: 'PERSONAL COMPUTER'
+Enter value for manufacturer: 'DELL'
+Enter value for price: 37000
+old   2: VALUES(&I_ID, &ITEM_NAME, &MANUFACTURER, &PRICE)
+new   2: VALUES('PC06', 'PERSONAL COMPUTER', 'DELL', 37000)
+
+1 row created.
+
+SQL> /
+Enter value for i_id: 'LC03'
+Enter value for item_name: 'LAPTOP'
+Enter value for manufacturer: 'LENOVO'
+Enter value for price: 57000
+old   2: VALUES(&I_ID, &ITEM_NAME, &MANUFACTURER, &PRICE)
+new   2: VALUES('LC03', 'LAPTOP', 'LENOVO', 57000)
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM ITEM;
+
+I_ID ITEM_NAME          MANUFACT      PRICE                                     
+---- ------------------ -------- ----------                                     
+PC01 PERSONAL COMPUTER  HP            35000                                     
+LC05 LAPTOP             HP            55000                                     
+PC03 PERSONAL COMPUTER  TOSHIBA       32000                                     
+PC06 PERSONAL COMPUTER  DELL          37000                                     
+LC03 LAPTOP             LENOVO        57000                                     
+
+SQL> CREATE TABLE CUSTOMER
+  2  (
+  3  C_ID NUMBER(2) PRIMARY KEY,
+  4  CUSTOMER_NAME VARCHAR(10) NOT NULL,
+  5  CITY VARCHAR(10) NOT NULL,
+  6  I_ID VARCHAR(4),
+  7  FOREIGN KEY(I_ID) REFERENCES ITEM(I_ID)
+  8  );
+
+Table created.
+
+SQL> SELECT *
+  2  FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+DEPT                           TABLE                                            
+EMP                            TABLE                                            
+BONUS                          TABLE                                            
+SALGRADE                       TABLE                                            
+ITEM                           TABLE                                            
+CUSTOMER                       TABLE                                            
+SHOP                           TABLE                                            
+QMART                          TABLE                                            
+
+8 rows selected.
+
+SQL> INSERT INTO CUSTOMER(C_ID, CUSTOMER_NAME, CITY, I_ID)
+  2  VALUES(&C_ID, &CUSTOMER_NAME, &CITY, &I_ID);
+Enter value for c_id: 01
+Enter value for customer_name: 'N ROY'
+Enter value for city: 'DELHI'
+Enter value for i_id: 'LC03'
+old   2: VALUES(&C_ID, &CUSTOMER_NAME, &CITY, &I_ID)
+new   2: VALUES(01, 'N ROY', 'DELHI', 'LC03')
+
+1 row created.
+
+SQL> /
+Enter value for c_id: 06
+Enter value for customer_name: 'H SINGH'
+Enter value for city: 'MUMBAI'
+Enter value for i_id: 'PC03'
+old   2: VALUES(&C_ID, &CUSTOMER_NAME, &CITY, &I_ID)
+new   2: VALUES(06, 'H SINGH', 'MUMBAI', 'PC03')
+
+1 row created.
+
+SQL> /
+Enter value for c_id: 12
+Enter value for customer_name: 'R PANDEY'
+Enter value for city: 'DELHI'
+Enter value for i_id: 'PC06'
+old   2: VALUES(&C_ID, &CUSTOMER_NAME, &CITY, &I_ID)
+new   2: VALUES(12, 'R PANDEY', 'DELHI', 'PC06')
+
+1 row created.
+
+SQL> /
+Enter value for c_id: 15
+Enter value for customer_name: 'C SHARMA'
+Enter value for city: 'DELHI'
+Enter value for i_id: 'LC03'
+old   2: VALUES(&C_ID, &CUSTOMER_NAME, &CITY, &I_ID)
+new   2: VALUES(15, 'C SHARMA', 'DELHI', 'LC03')
+
+1 row created.
+
+SQL> /
+Enter value for c_id: 16
+Enter value for customer_name: 'K AGARWAL'
+Enter value for city: 'BANGALORE'
+Enter value for i_id: 'PC01'
+old   2: VALUES(&C_ID, &CUSTOMER_NAME, &CITY, &I_ID)
+new   2: VALUES(16, 'K AGARWAL', 'BANGALORE', 'PC01')
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM CUSTOMER;
+
+      C_ID CUSTOMER_N CITY       I_ID                                           
+---------- ---------- ---------- ----                                           
+         1 N ROY      DELHI      LC03                                           
+         6 H SINGH    MUMBAI     PC03                                           
+        12 R PANDEY   DELHI      PC06                                           
+        15 C SHARMA   DELHI      LC03                                           
+        16 K AGARWAL  BANGALORE  PC01                                           
+
+SQL> SELECT DISTINCT CITY
+  2  FROM CUSTOMER;
+
+CITY                                                                            
+----------                                                                      
+DELHI                                                                           
+MUMBAI                                                                          
+BANGALORE                                                                       
+
+SQL> SELECT ITEM_NAME, MAX(PRICE)
+  2  FROM ITEM
+  3  GROUP BY ITEM_NAME;
+
+ITEM_NAME          MAX(PRICE)                                                   
+------------------ ----------                                                   
+PERSONAL COMPUTER       37000                                                   
+LAPTOP                  57000                                                   
+
+SQL> SELECT DISTINCT C.CUSTOMER_NAME
+  2  FROM CUSTOMER C
+  3  JOIN ITEM I ON C.I_ID = I.I_ID
+  4  WHERE I.MANUFACTURER = 'LENOVO'
+  5  AND I.ITEM_NAME LIKE '%LAPTOP%';
+
+CUSTOMER_N                                                                      
+----------                                                                      
+C SHARMA                                                                        
+N ROY                                                                           
+
+SQL> UPDATE ITEM
+  2  SET PRICE = PRICE*0.95
+  3  WHERE MANUFACTURER = 'HP';
+
+2 rows updated.
+
+SQL> SELECT *
+  2  FROM ITEM;
+
+I_ID ITEM_NAME          MANUFACT      PRICE                                     
+---- ------------------ -------- ----------                                     
+PC01 PERSONAL COMPUTER  HP            33250                                     
+LC05 LAPTOP             HP            52250                                     
+PC03 PERSONAL COMPUTER  TOSHIBA       32000                                     
+PC06 PERSONAL COMPUTER  DELL          37000                                     
+LC03 LAPTOP             LENOVO        57000                                     
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM ITEM;
+
+I_ID ITEM_NAME          MANUFACT      PRICE                                     
+---- ------------------ -------- ----------                                     
+PC01 PERSONAL COMPUTER  HP            33250                                     
+LC05 LAPTOP             HP            52250                                     
+PC03 PERSONAL COMPUTER  TOSHIBA       32000                                     
+PC06 PERSONAL COMPUTER  DELL          37000                                     
+LC03 LAPTOP             LENOVO        57000                                     
+
+SQL> SPOOL OFF;

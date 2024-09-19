@@ -1,0 +1,295 @@
+SQL> CREATE TABLE BOOKS
+  2  (
+  3  BOOK_ID VARCHAR(5) PRIMARY KEY,
+  4  BOOK_NAME VARCHAR(20) NOT NULL,
+  5  AUTHOR_NAME VARCHAR(20) NOT NULL,
+  6  PUBLISHERS VARCHAR(15) NOT NULL,
+  7  PRICE NUMBER(10,2) NOT NULL,
+  8  TYPE VARCHAR(15) NOT NULL,
+  9  QTY NUMBER(2) NOT NULL
+ 10  );
+
+Table created.
+
+SQL> INSERT INTO BOOKS(BOOK_ID, BOOK_NAME, AUTHOR_NAME, PUBLISHERS, PRICE, TYPE, QTY)
+  2  VALUES(&BOOK_ID, &BOOK_NAME, &AUTHOR_NAME, &PUBLISHERS, &PRICE, &TYPE, &QTY);
+Enter value for book_id: 'C0001'
+Enter value for book_name: 'FAST COOK'
+Enter value for author_name: 'LATA KAPOOR'
+Enter value for publishers: 'EPB'
+Enter value for price: 355
+Enter value for type: ''COOKERY'
+Enter value for qty: 5
+old   2: VALUES(&BOOK_ID, &BOOK_NAME, &AUTHOR_NAME, &PUBLISHERS, &PRICE, &TYPE, &QTY)
+new   2: VALUES('C0001', 'FAST COOK', 'LATA KAPOOR', 'EPB', 355, ''COOKERY', 5)
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> /
+Enter value for book_id: 'C0001'
+Enter value for book_name: 'FAST COOK'
+Enter value for author_name: 'LATA KAPOOR'
+Enter value for publishers: 'EPB'
+Enter value for price: 355
+Enter value for type: 'COOKERY'
+Enter value for qty: 5
+old   2: VALUES(&BOOK_ID, &BOOK_NAME, &AUTHOR_NAME, &PUBLISHERS, &PRICE, &TYPE, &QTY)
+new   2: VALUES('C0001', 'FAST COOK', 'LATA KAPOOR', 'EPB', 355, 'COOKERY', 5)
+
+1 row created.
+
+SQL> /
+Enter value for book_id: 'F0001'
+Enter value for book_name: 'THE TEARS'
+Enter value for author_name: 'WILLIAM HOPKINS'
+Enter value for publishers: 'FIRST PUBL.'
+Enter value for price: 650
+Enter value for type: 'FICTION'
+Enter value for qty: 20
+old   2: VALUES(&BOOK_ID, &BOOK_NAME, &AUTHOR_NAME, &PUBLISHERS, &PRICE, &TYPE, &QTY)
+new   2: VALUES('F0001', 'THE TEARS', 'WILLIAM HOPKINS', 'FIRST PUBL.', 650, 'FICTION', 20)
+
+1 row created.
+
+SQL> /
+Enter value for book_id: 'T0001'
+Enter value for book_name: 'MY FIRST C++'
+Enter value for author_name: 'BRAIN AND BROOKE'
+Enter value for publishers: 'EPB'
+Enter value for price: 350
+Enter value for type: 'TEXT'
+Enter value for qty: 10
+old   2: VALUES(&BOOK_ID, &BOOK_NAME, &AUTHOR_NAME, &PUBLISHERS, &PRICE, &TYPE, &QTY)
+new   2: VALUES('T0001', 'MY FIRST C++', 'BRAIN AND BROOKE', 'EPB', 350, 'TEXT', 10)
+
+1 row created.
+
+SQL> /
+Enter value for book_id: 'T0002'
+Enter value for book_name: 'C++ BRAINWORKS'
+Enter value for author_name: 'A.W. ROSSAINE'
+Enter value for publishers: 'TDH'
+Enter value for price: 350
+Enter value for type: 'TEXT'
+Enter value for qty: 15
+old   2: VALUES(&BOOK_ID, &BOOK_NAME, &AUTHOR_NAME, &PUBLISHERS, &PRICE, &TYPE, &QTY)
+new   2: VALUES('T0002', 'C++ BRAINWORKS', 'A.W. ROSSAINE', 'TDH', 350, 'TEXT', 15)
+
+1 row created.
+
+SQL> /
+Enter value for book_id: 'F0002'
+Enter value for book_name: 'THUNDERBOLTS'
+Enter value for author_name: 'ANNA ROBERTS'
+Enter value for publishers: 'FIRST PUBL.'
+Enter value for price: 750
+Enter value for type: 'FICTION'
+Enter value for qty: 50
+old   2: VALUES(&BOOK_ID, &BOOK_NAME, &AUTHOR_NAME, &PUBLISHERS, &PRICE, &TYPE, &QTY)
+new   2: VALUES('F0002', 'THUNDERBOLTS', 'ANNA ROBERTS', 'FIRST PUBL.', 750, 'FICTION', 50)
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM BOOKS;
+
+BOOK_ BOOK_NAME            AUTHOR_NAME          PUBLISHERS           PRICE      
+----- -------------------- -------------------- --------------- ----------      
+TYPE                   QTY                                                      
+--------------- ----------                                                      
+C0001 FAST COOK            LATA KAPOOR          EPB                    355      
+COOKERY                  5                                                      
+                                                                                
+F0001 THE TEARS            WILLIAM HOPKINS      FIRST PUBL.            650      
+FICTION                 20                                                      
+                                                                                
+T0001 MY FIRST C++         BRAIN AND BROOKE     EPB                    350      
+TEXT                    10                                                      
+                                                                                
+
+BOOK_ BOOK_NAME            AUTHOR_NAME          PUBLISHERS           PRICE      
+----- -------------------- -------------------- --------------- ----------      
+TYPE                   QTY                                                      
+--------------- ----------                                                      
+T0002 C++ BRAINWORKS       A.W. ROSSAINE        TDH                    350      
+TEXT                    15                                                      
+                                                                                
+F0002 THUNDERBOLTS         ANNA ROBERTS         FIRST PUBL.            750      
+FICTION                 50                                                      
+                                                                                
+
+SQL> SET PAGES 100 LINES 100;
+SQL> SELECT *
+  2  FROM BOOKS;
+
+BOOK_ BOOK_NAME            AUTHOR_NAME          PUBLISHERS           PRICE TYPE                     
+----- -------------------- -------------------- --------------- ---------- ---------------          
+       QTY                                                                                          
+----------                                                                                          
+C0001 FAST COOK            LATA KAPOOR          EPB                    355 COOKERY                  
+         5                                                                                          
+                                                                                                    
+F0001 THE TEARS            WILLIAM HOPKINS      FIRST PUBL.            650 FICTION                  
+        20                                                                                          
+                                                                                                    
+T0001 MY FIRST C++         BRAIN AND BROOKE     EPB                    350 TEXT                     
+        10                                                                                          
+                                                                                                    
+T0002 C++ BRAINWORKS       A.W. ROSSAINE        TDH                    350 TEXT                     
+        15                                                                                          
+                                                                                                    
+F0002 THUNDERBOLTS         ANNA ROBERTS         FIRST PUBL.            750 FICTION                  
+        50                                                                                          
+                                                                                                    
+
+SQL> SET PAGES 500 LINES 500
+SQL> SELECT *
+  2  FROM BOOKS;
+
+BOOK_ BOOK_NAME            AUTHOR_NAME          PUBLISHERS           PRICE TYPE                   QTY                                                                                                                                                                                                                                                                                                                                                                                                               
+----- -------------------- -------------------- --------------- ---------- --------------- ----------                                                                                                                                                                                                                                                                                                                                                                                                               
+C0001 FAST COOK            LATA KAPOOR          EPB                    355 COOKERY                  5                                                                                                                                                                                                                                                                                                                                                                                                               
+F0001 THE TEARS            WILLIAM HOPKINS      FIRST PUBL.            650 FICTION                 20                                                                                                                                                                                                                                                                                                                                                                                                               
+T0001 MY FIRST C++         BRAIN AND BROOKE     EPB                    350 TEXT                    10                                                                                                                                                                                                                                                                                                                                                                                                               
+T0002 C++ BRAINWORKS       A.W. ROSSAINE        TDH                    350 TEXT                    15                                                                                                                                                                                                                                                                                                                                                                                                               
+F0002 THUNDERBOLTS         ANNA ROBERTS         FIRST PUBL.            750 FICTION                 50                                                                                                                                                                                                                                                                                                                                                                                                               
+
+SQL> CREATE TABLE ISSUED
+  2  (
+  3  BOOK_ID VARCHAR(5),
+  4  QUANTITY_ISSUED NUMBER(2) NOT NULL,
+  5  FOREIGN KEY (BOOK_ID) REFERENCES BOOKS(BOOK_ID)
+  6  );
+
+Table created.
+
+SQL> INSERT INTO ISSUED(BOOK_ID, QUANTITY_ISSUED)
+  2  VALUES(&BOOK_ID, &QUANTITY_ISSUED);
+Enter value for book_id: 'T0001'
+Enter value for quantity_issued: 4
+old   2: VALUES(&BOOK_ID, &QUANTITY_ISSUED)
+new   2: VALUES('T0001', 4)
+
+1 row created.
+
+SQL> /
+Enter value for book_id: 'C0001'
+Enter value for quantity_issued: 5
+old   2: VALUES(&BOOK_ID, &QUANTITY_ISSUED)
+new   2: VALUES('C0001', 5)
+
+1 row created.
+
+SQL> /
+Enter value for book_id: 'F0001'
+Enter value for quantity_issued: 2
+old   2: VALUES(&BOOK_ID, &QUANTITY_ISSUED)
+new   2: VALUES('F0001', 2)
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM ISSUED;
+
+BOOK_ QUANTITY_ISSUED                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+----- ---------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+T0001               4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+C0001               5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+F0001               2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+SQL> SELECT BOOK_NAME, AUTHOR_NAME, PRICE
+  2  FROM BOOKS
+  3  WHERE PUBLISHERS = 'FIRST PUBL.';
+
+BOOK_NAME            AUTHOR_NAME               PRICE                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+-------------------- -------------------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+THE TEARS            WILLIAM HOPKINS             650                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+THUNDERBOLTS         ANNA ROBERTS                750                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+SQL> SELECT BOOK_NAME, PRICE
+  2  FROM BOOKS
+  3  ORDER BY PRICE;
+
+BOOK_NAME                 PRICE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+-------------------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+MY FIRST C++                350                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+C++ BRAINWORKS              350                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+FAST COOK                   355                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+THE TEARS                   650                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+THUNDERBOLTS                750                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+
+SQL> UPDATE BOOKS
+  2  SET PRICE = PRICE +50
+  3  WHERE PUBLISHERS = 'EPB';
+
+2 rows updated.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM BOOKS;
+
+BOOK_ BOOK_NAME            AUTHOR_NAME          PUBLISHERS           PRICE TYPE                   QTY                                                                                                                                                                                                                                                                                                                                                                                                               
+----- -------------------- -------------------- --------------- ---------- --------------- ----------                                                                                                                                                                                                                                                                                                                                                                                                               
+C0001 FAST COOK            LATA KAPOOR          EPB                    405 COOKERY                  5                                                                                                                                                                                                                                                                                                                                                                                                               
+F0001 THE TEARS            WILLIAM HOPKINS      FIRST PUBL.            650 FICTION                 20                                                                                                                                                                                                                                                                                                                                                                                                               
+T0001 MY FIRST C++         BRAIN AND BROOKE     EPB                    400 TEXT                    10                                                                                                                                                                                                                                                                                                                                                                                                               
+T0002 C++ BRAINWORKS       A.W. ROSSAINE        TDH                    350 TEXT                    15                                                                                                                                                                                                                                                                                                                                                                                                               
+F0002 THUNDERBOLTS         ANNA ROBERTS         FIRST PUBL.            750 FICTION                 50                                                                                                                                                                                                                                                                                                                                                                                                               
+
+SQL> INSERT INTO ISSUED(BOOK_ID, QUANTITY_ISSUED)
+  2  VALUES('F0003',1);
+INSERT INTO ISSUED(BOOK_ID, QUANTITY_ISSUED)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C005452) violated - parent key not found 
+
+
+SQL> INSERT INTO ISSUED(BOOK_ID, QUANTITY_ISSUED)
+  2  VALUES(&BOOK_ID, &QUANTITY_ISSUED);
+Enter value for book_id: 'F0003'
+Enter value for quantity_issued: 1
+old   2: VALUES(&BOOK_ID, &QUANTITY_ISSUED)
+new   2: VALUES('F0003', 1)
+INSERT INTO ISSUED(BOOK_ID, QUANTITY_ISSUED)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C005452) violated - parent key not found 
+
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT *
+  2  FROM BOOKS;
+
+BOOK_ BOOK_NAME            AUTHOR_NAME          PUBLISHERS           PRICE TYPE                   QTY                                                                                                                                                                                                                                                                                                                                                                                                               
+----- -------------------- -------------------- --------------- ---------- --------------- ----------                                                                                                                                                                                                                                                                                                                                                                                                               
+C0001 FAST COOK            LATA KAPOOR          EPB                    405 COOKERY                  5                                                                                                                                                                                                                                                                                                                                                                                                               
+F0001 THE TEARS            WILLIAM HOPKINS      FIRST PUBL.            650 FICTION                 20                                                                                                                                                                                                                                                                                                                                                                                                               
+T0001 MY FIRST C++         BRAIN AND BROOKE     EPB                    400 TEXT                    10                                                                                                                                                                                                                                                                                                                                                                                                               
+T0002 C++ BRAINWORKS       A.W. ROSSAINE        TDH                    350 TEXT                    15                                                                                                                                                                                                                                                                                                                                                                                                               
+F0002 THUNDERBOLTS         ANNA ROBERTS         FIRST PUBL.            750 FICTION                 50                                                                                                                                                                                                                                                                                                                                                                                                               
+
+SQL> SELECT *
+  2  FROM ISSUED;
+
+BOOK_ QUANTITY_ISSUED                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+----- ---------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+T0001               4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+C0001               5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+F0001               2                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+SQL> SPOOL OFF;
